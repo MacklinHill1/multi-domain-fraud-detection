@@ -1,184 +1,234 @@
-.counter {
-  font-size: 16px;
-  padding: 5px 10px;
-  border-radius: 5px;
-  color: var(--accent);
-  background: var(--accent-bg);
-  border: 2px solid transparent;
-  transition: border-color 0.3s;
-  margin-bottom: 24px;
 
-  &:hover {
-    border-color: var(--accent-border);
-  }
-  &:focus-visible {
-    outline: 2px solid var(--accent);
-    outline-offset: 2px;
-  }
+/* General Layout */
+
+.app {
+    min-height: 100vh;
+    background: #f8fafc;
+    font-family: Arial, sans-serif;
+    color: #0f172a;
+    padding: 40px 20px;
 }
 
-.hero {
-  position: relative;
-
-  .base,
-  .framework,
-  .vite {
-    inset-inline: 0;
+.app-container {
+    max-width: 850px;
     margin: 0 auto;
-  }
-
-  .base {
-    width: 170px;
-    position: relative;
-    z-index: 0;
-  }
-
-  .framework,
-  .vite {
-    position: absolute;
-  }
-
-  .framework {
-    z-index: 1;
-    top: 34px;
-    height: 28px;
-    transform: perspective(2000px) rotateZ(300deg) rotateX(44deg) rotateY(39deg)
-      scale(1.4);
-  }
-
-  .vite {
-    z-index: 0;
-    top: 107px;
-    height: 26px;
-    width: auto;
-    transform: perspective(2000px) rotateZ(300deg) rotateX(40deg) rotateY(39deg)
-      scale(0.8);
-  }
 }
 
-#center {
-  display: flex;
-  flex-direction: column;
-  gap: 25px;
-  place-content: center;
-  place-items: center;
-  flex-grow: 1;
+/* Header */
 
-  @media (max-width: 1024px) {
-    padding: 32px 20px 24px;
-    gap: 18px;
-  }
+.app-header {
+    margin-bottom: 40px;
 }
 
-#next-steps {
-  display: flex;
-  border-top: 1px solid var(--border);
-  text-align: left;
-
-  & > div {
-    flex: 1 1 0;
-    padding: 32px;
-    @media (max-width: 1024px) {
-      padding: 24px 20px;
-    }
-  }
-
-  .icon {
-    margin-bottom: 16px;
-    width: 22px;
-    height: 22px;
-  }
-
-  @media (max-width: 1024px) {
-    flex-direction: column;
-    text-align: center;
-  }
+.app-header h1 {
+    font-size: 32px;
+    margin-bottom: 8px;
 }
 
-#docs {
-  border-right: 1px solid var(--border);
-
-  @media (max-width: 1024px) {
-    border-right: none;
-    border-bottom: 1px solid var(--border);
-  }
+.app-header p {
+    color: #64748b;
+    margin: 0;
 }
 
-#next-steps ul {
-  list-style: none;
-  padding: 0;
-  display: flex;
-  gap: 8px;
-  margin: 32px 0 0;
+/* Review Input Card */
 
-  .logo {
-    height: 18px;
-  }
+.review-card,
+.results-card {
+    background: white;
+    padding: 28px;
+    border-radius: 12px;
+    border: 1px solid #e2e8f0;
+}
 
-  a {
-    color: var(--text-h);
-    font-size: 16px;
-    border-radius: 6px;
-    background: var(--social-bg);
+.review-card h2,
+.results-card > h2 {
+    margin-top: 0;
+}
+
+.section-description {
+    color: #64748b;
+    line-height: 1.5;
+    margin-bottom: 24px;
+}
+
+.input-label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.review-input {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 14px;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    font-size: 15px;
+    resize: vertical;
+    font-family: inherit;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.review-input:focus {
+    outline: none;
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+}
+
+.input-footer {
     display: flex;
-    padding: 6px 12px;
+    justify-content: space-between;
     align-items: center;
-    gap: 8px;
-    text-decoration: none;
-    transition: box-shadow 0.3s;
+    gap: 12px;
+    margin-top: 12px;
+}
 
-    &:hover {
-      box-shadow: var(--shadow);
-    }
-    .button-icon {
-      height: 18px;
-      width: 18px;
-    }
-  }
+.character-count {
+    color: #94a3b8;
+    font-size: 13px;
+}
 
-  @media (max-width: 1024px) {
-    margin-top: 20px;
+.analyze-button {
+    background: #2563eb;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 12px 22px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.2s, opacity 0.2s;
+}
+
+.analyze-button:hover:not(:disabled) {
+    background: #1d4ed8;
+}
+
+.analyze-button:disabled {
+    cursor: wait;
+    opacity: 0.7;
+}
+
+.error-message {
+    color: #dc2626;
+    margin-bottom: 0;
+}
+
+/* Analysis Results */
+
+.results-card {
+    margin-top: 24px;
+}
+
+.results-summary {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     flex-wrap: wrap;
-    justify-content: center;
-
-    li {
-      flex: 1 1 calc(50% - 8px);
-    }
-
-    a {
-      width: 100%;
-      justify-content: center;
-      box-sizing: border-box;
-    }
-  }
+    gap: 16px;
 }
 
-#spacer {
-  height: 88px;
-  border-top: 1px solid var(--border);
-  @media (max-width: 1024px) {
-    height: 48px;
-  }
+.result-label {
+    color: #64748b;
+    margin-bottom: 6px;
 }
 
-.ticks {
-  position: relative;
-  width: 100%;
+.risk-label {
+    margin: 0;
+}
 
-  &::before,
-  &::after {
-    content: '';
-    position: absolute;
-    top: -4.5px;
-    border: 5px solid transparent;
-  }
+.risk-score-container {
+    text-align: right;
+}
 
-  &::before {
-    left: 0;
-    border-left-color: var(--border);
-  }
-  &::after {
-    right: 0;
-    border-right-color: var(--border);
-  }
+.risk-score {
+    margin: 0;
+    font-size: 32px;
+}
+
+.risk-label.high_risk {
+    color: #dc2626;
+}
+
+.risk-label.suspicious {
+    color: #d97706;
+}
+
+.risk-label.likely_legitimate {
+    color: #16a34a;
+}
+
+/* Risk Score Bar */
+
+.risk-bar {
+    height: 10px;
+    background: #e2e8f0;
+    border-radius: 10px;
+    margin: 22px 0;
+    overflow: hidden;
+}
+
+.risk-bar-fill {
+    height: 100%;
+    border-radius: 10px;
+    transition: width 0.4s ease;
+}
+
+.risk-bar-fill.high_risk {
+    background: #dc2626;
+}
+
+.risk-bar-fill.suspicious {
+    background: #d97706;
+}
+
+.risk-bar-fill.likely_legitimate {
+    background: #16a34a;
+}
+
+/* Model Probabilities */
+
+.results-card h3 {
+    margin-bottom: 16px;
+}
+
+.probability-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+/* Disclaimer */
+
+.disclaimer {
+    color: #64748b;
+    font-size: 13px;
+    line-height: 1.5;
+    margin-top: 22px;
+}
+
+/* Responsive Layout */
+
+@media (max-width: 600px) {
+    .app {
+        padding: 24px 14px;
+    }
+
+    .review-card,
+    .results-card {
+        padding: 20px;
+    }
+
+    .input-footer {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .analyze-button {
+        width: 100%;
+    }
+
+    .risk-score-container {
+        text-align: left;
+    }
 }
