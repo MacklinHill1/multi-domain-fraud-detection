@@ -5,6 +5,7 @@ import Sidebar from "./components/Sidebar";
 import Overview from "./pages/Overview";
 import ReviewDetection from "./pages/ReviewDetection";
 import HistoryPage from "./pages/History";
+import JobDetection from "./pages/JobDetection";
 
 import "./App.css";
 
@@ -14,7 +15,8 @@ function App() {
     const pageTitles = {
         overview: "Overview",
         reviews: "Review Detection",
-        history: "Analysis History"
+        history: "Analysis History",
+        jobs: "Job Scam Detection"
     };
 
     const renderPage = () => {
@@ -23,6 +25,8 @@ function App() {
                 return <ReviewDetection />;
             case "history":
                 return <HistoryPage />;
+            case "jobs":
+                return <JobDetection />;
             default:
                 return <Overview onNavigate={setActivePage} />;
         }

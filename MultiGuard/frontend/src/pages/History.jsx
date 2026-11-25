@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from "react";
 import {
     History,
@@ -28,17 +27,44 @@ function HistoryPage() {
             setError("");
 
             try {
-                const response = await api.get("/api/reviews/history", {
-                    params: {
-                        search: search.trim() || undefined,
-                        risk_level: riskLevel || undefined,
-                        limit: 100,
-                        offset: 0
-                    }
-                });
+                const params = {
+                    search: search.trim() || undefined,
+                    risk_level: riskLevel || undefined,
+                    limit: 100,
+                    offset: 0
+                };
+
+                // Retrieve review and job reports simultaneously
+                const [reviewResponse, jobResponse] = await Promise.all([
+                    api.get("/api/reviews/history", { params }),
+                    api.get("/api/jobs/history", { params })
+                ]);
+
+                const reviewReports = (
+                    reviewResponse.data.reports || []
+                ).map((report) => ({
+                    ...report,
+                    type: "review"
+                }));
+
+                const jobReports = (
+                    jobResponse.data.reports || []
+                ).map((report) => ({
+                    ...report,
+                    type: "job"
+                }));
+
+                // Combine both report types and sort newest first
+                const combinedReports = [
+                    ...reviewReports,
+                    ...jobReports
+                ].sort(
+                    (a, b) =>
+                        new Date(b.created_at) - new Date(a.created_at)
+                );
 
                 if (isActive) {
-                    setReports(response.data.reports || []);
+                    setReports(combinedReports);
                 }
             } catch (err) {
                 if (isActive) {
@@ -46,6 +72,7 @@ function HistoryPage() {
                         err.response?.data?.detail ||
                         "Could not load analysis history. Make sure the backend is running."
                     );
+                    console.error(err);
                 }
             } finally {
                 if (isActive) {
@@ -78,10 +105,58 @@ function HistoryPage() {
         return labels[level] || level;
     }
 
+    function getReportKey(report) {
+        return `${report.type}-${report.id}`;
+    }
+
     function toggleReport(report) {
+        const reportKey = getReportKey(report);
+
         setSelectedReport(
-            selectedReport?.id === report.id ? null : report
+            selectedReport === reportKey ? null : reportKey
         );
+    }
+
+    function getReportText(report) {
+        return report.type === "job"
+            ? report.job_text
+            : report.review_text;
+    }
+
+    function getProbabilities(report) {
+        if (report.type === "job") {
+            return {
+                positiveLabel: "Potentially Fraudulent",
+                positive: report.fraudulent_probability,
+                negativeLabel: "Legitimate",
+                negative: report.legitimate_probability
+            };
+        }
+
+        return {
+            positiveLabel: "Potentially Deceptive",
+            positive: report.deceptive_probability,
+            negativeLabel: "Truthful",
+            negative: report.truthful_probability
+        };
+    }
+
+    function getSignals(report) {
+        if (report.type === "job") {
+            return {
+                positiveLabel: "Fraudulent Signals",
+                positive: report.explanation?.fraudulent_signals || [],
+                negativeLabel: "Legitimate Signals",
+                negative: report.explanation?.legitimate_signals || []
+            };
+        }
+
+        return {
+            positiveLabel: "Deceptive Signals",
+            positive: report.explanation?.deceptive_signals || [],
+            negativeLabel: "Truthful Signals",
+            negative: report.explanation?.truthful_signals || []
+        };
     }
 
     return (
@@ -105,7 +180,7 @@ function HistoryPage() {
                     <Search size={18} />
                     <input
                         type="text"
-                        placeholder="Search analyzed reviews..."
+                        placeholder="Search all analyzed reports..."
                         value={search}
                         onChange={(event) => setSearch(event.target.value)}
                     />
@@ -127,7 +202,8 @@ function HistoryPage() {
                 <div>
                     <h2>Saved Reports</h2>
                     <p>
-                        {reports.length} {reports.length === 1 ? "report" : "reports"} found
+                        {reports.length}{" "}
+                        {reports.length === 1 ? "report" : "reports"} found
                     </p>
                 </div>
 
@@ -164,112 +240,173 @@ function HistoryPage() {
                 </div>
             ) : (
                 <div className="history-report-list">
-                    {reports.map((report) => (
-                        <div className="content-card history-report" key={report.id}>
-                            <button
-                                className="history-report-main"
-                                onClick={() => toggleReport(report)}
+                    {reports.map((report) => {
+                        const reportKey = getReportKey(report);
+                        const isSelected = selectedReport === reportKey;
+                        const probabilities = getProbabilities(report);
+                        const signals = getSignals(report);
+                        const reportText = getReportText(report);
+
+                        return (
+                            <div
+                                className="content-card history-report"
+                                key={reportKey}
                             >
-                                <div className="history-report-icon">
-                                    <FileText size={20} />
-                                </div>
-
-                                <div className="history-report-info">
-                                    <div className="history-report-topline">
-                                        <span className="history-report-id">
-                                            REPORT #{report.id}
-                                        </span>
-                                        <span className={`risk-label ${report.risk_level}`}>
-                                            {getRiskLabel(report.risk_level)}
-                                        </span>
+                                <button
+                                    className="history-report-main"
+                                    onClick={() => toggleReport(report)}
+                                >
+                                    <div className="history-report-icon">
+                                        <FileText size={20} />
                                     </div>
 
-                                    <p className="history-review-text">
-                                        {report.review_text}
-                                    </p>
+                                    <div className="history-report-info">
+                                        <div className="history-report-topline">
+                                            <span className="history-report-id">
+                                                {report.type === "job"
+                                                    ? "JOB REPORT"
+                                                    : "REVIEW REPORT"}{" "}
+                                                #{report.id}
+                                            </span>
 
-                                    <span className="history-date">
-                                        <Clock3 size={13} />
-                                        {formatDate(report.created_at)}
-                                    </span>
-                                </div>
+                                            <span className="history-report-id">
+                                                {report.type === "job"
+                                                    ? "Job Scam Detection"
+                                                    : "Review Detection"}
+                                            </span>
 
-                                <div className="history-score">
-                                    <strong>
-                                        {Number(report.risk_score).toFixed(2)}%
-                                    </strong>
-                                    <span>Risk Score</span>
-                                </div>
-
-                                <div className="history-expand-icon">
-                                    {selectedReport?.id === report.id
-                                        ? <ChevronUp size={19} />
-                                        : <ChevronDown size={19} />}
-                                </div>
-                            </button>
-
-                            {selectedReport?.id === report.id && (
-                                <div className="history-report-details">
-                                    <div className="history-detail-section">
-                                        <h3>Original Review</h3>
-                                        <p>{report.review_text}</p>
-                                    </div>
-
-                                    <div className="history-detail-probabilities">
-                                        <div>
-                                            <span>Potentially Deceptive</span>
-                                            <strong>
-                                                {Number(report.deceptive_probability).toFixed(2)}%
-                                            </strong>
+                                            <span
+                                                className={`risk-label ${report.risk_level}`}
+                                            >
+                                                {getRiskLabel(report.risk_level)}
+                                            </span>
                                         </div>
 
-                                        <div>
-                                            <span>Truthful</span>
-                                            <strong>
-                                                {Number(report.truthful_probability).toFixed(2)}%
-                                            </strong>
-                                        </div>
+                                        <p className="history-review-text">
+                                            {reportText}
+                                        </p>
+
+                                        <span className="history-date">
+                                            <Clock3 size={13} />
+                                            {formatDate(report.created_at)}
+                                        </span>
                                     </div>
 
-                                    <div className="history-detail-section">
-                                        <h3>Model Explanation</h3>
+                                    <div className="history-score">
+                                        <strong>
+                                            {Number(report.risk_score).toFixed(2)}%
+                                        </strong>
+                                        <span>Risk Score</span>
+                                    </div>
 
-                                        <div className="history-signal-columns">
+                                    <div className="history-expand-icon">
+                                        {isSelected
+                                            ? <ChevronUp size={19} />
+                                            : <ChevronDown size={19} />}
+                                    </div>
+                                </button>
+
+                                {isSelected && (
+                                    <div className="history-report-details">
+                                        <div className="history-detail-section">
+                                            <h3>
+                                                {report.type === "job"
+                                                    ? "Original Job Posting"
+                                                    : "Original Review"}
+                                            </h3>
+                                            <p>{reportText}</p>
+                                        </div>
+
+                                        <div className="history-detail-probabilities">
                                             <div>
-                                                <h4>Deceptive Signals</h4>
-
-                                                {report.explanation?.deceptive_signals?.length > 0 ? (
-                                                    report.explanation.deceptive_signals.map((signal, index) => (
-                                                        <div className="history-signal" key={index}>
-                                                            <span>{signal.term}</span>
-                                                            <span>{signal.contribution}</span>
-                                                        </div>
-                                                    ))
-                                                ) : (
-                                                    <p>No strong deceptive signals found.</p>
-                                                )}
+                                                <span>
+                                                    {probabilities.positiveLabel}
+                                                </span>
+                                                <strong>
+                                                    {Number(
+                                                        probabilities.positive
+                                                    ).toFixed(2)}%
+                                                </strong>
                                             </div>
 
                                             <div>
-                                                <h4>Truthful Signals</h4>
+                                                <span>
+                                                    {probabilities.negativeLabel}
+                                                </span>
+                                                <strong>
+                                                    {Number(
+                                                        probabilities.negative
+                                                    ).toFixed(2)}%
+                                                </strong>
+                                            </div>
+                                        </div>
 
-                                                {report.explanation?.truthful_signals?.length > 0 ? (
-                                                    report.explanation.truthful_signals.map((signal, index) => (
-                                                        <div className="history-signal" key={index}>
-                                                            <span>{signal.term}</span>
-                                                            <span>{signal.contribution}</span>
-                                                        </div>
-                                                    ))
-                                                ) : (
-                                                    <p>No strong truthful signals found.</p>
-                                                )}
+                                        <div className="history-detail-section">
+                                            <h3>Model Explanation</h3>
+
+                                            <div className="history-signal-columns">
+                                                <div>
+                                                    <h4>
+                                                        {signals.positiveLabel}
+                                                    </h4>
+
+                                                    {signals.positive.length > 0 ? (
+                                                        signals.positive.map(
+                                                            (signal, index) => (
+                                                                <div
+                                                                    className="history-signal"
+                                                                    key={index}
+                                                                >
+                                                                    <span>
+                                                                        {signal.term}
+                                                                    </span>
+                                                                    <span>
+                                                                        {signal.contribution}
+                                                                    </span>
+                                                                </div>
+                                                            )
+                                                        )
+                                                    ) : (
+                                                        <p>
+                                                            No strong signals found.
+                                                        </p>
+                                                    )}
+                                                </div>
+
+                                                <div>
+                                                    <h4>
+                                                        {signals.negativeLabel}
+                                                    </h4>
+
+                                                    {signals.negative.length > 0 ? (
+                                                        signals.negative.map(
+                                                            (signal, index) => (
+                                                                <div
+                                                                    className="history-signal"
+                                                                    key={index}
+                                                                >
+                                                                    <span>
+                                                                        {signal.term}
+                                                                    </span>
+                                                                    <span>
+                                                                        {signal.contribution}
+                                                                    </span>
+                                                                </div>
+                                                            )
+                                                        )
+                                                    ) : (
+                                                        <p>
+                                                            No strong signals found.
+                                                        </p>
+                                                    )}
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            )}
-                        </div>
-                    ))}
+                                )}
+                            </div>
+                        );
+                    })}
                 </div>
             )}
         </div>

@@ -112,8 +112,8 @@ function Overview({ onNavigate }) {
                         <span>Detection Modules</span>
                         <ScanSearch size={19} />
                     </div>
-                    <h3>1 <span className="stat-total">/ 4</span></h3>
-                    <p>One module currently active</p>
+                    <h3>2 <span className="stat-total">/ 4</span></h3>
+                    <p>Two modules currently active</p>
                 </div>
 
                 <div className="stat-card">

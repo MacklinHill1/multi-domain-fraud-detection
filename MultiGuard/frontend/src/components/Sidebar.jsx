@@ -13,16 +13,16 @@ const navigation = [
         section: "WORKSPACE",
         items: [
             { id: "overview", label: "Overview", icon: LayoutDashboard },
-            { id: "reviews", label: "Review Detection", icon: ScanSearch },
             { id: "history", label: "Analysis History", icon: History }
         ]
     },
     {
         section: "DETECTION MODULES",
         items: [
+            { id: "reviews", label: "Review Detection", icon: ScanSearch },
             { id: "phishing", label: "Phishing Detection", icon: ShieldAlert, comingSoon: true },
             { id: "marketplace", label: "Marketplace Fraud", icon: Store, comingSoon: true },
-            { id: "jobs", label: "Job Scam Detection", icon: BriefcaseBusiness, comingSoon: true }
+            { id: "jobs", label: "Job Scam Detection", icon: BriefcaseBusiness }
         ]
     }
 ];
