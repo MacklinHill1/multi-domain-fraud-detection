@@ -1,681 +1,577 @@
-# DEMON EVOLUTION – MAJOR GAME OVERHAUL
-## Abilities, VFX, Icon Pack, UI, Lighting & World Redesign
+# MultiGuard
+### Multi-Domain Fraud & Deception Detection Platform
 
-We are doing another major overhaul of our Roblox game, Demon Evolution. This time, the focus is on making the abilities significantly more impressive, completely redesigning the icons throughout the game, and upgrading the environments to have much better visual quality, color, and atmosphere.
+MultiGuard is a full-stack machine learning application designed to identify potentially fraudulent, deceptive, and malicious content across multiple domains.
 
-This is not a request to simply make a few visual adjustments. I want you to inspect the existing project, understand how everything currently works, and then implement the redesign throughout the actual game.
+The platform uses specialized machine learning models to analyze text and other data, estimate potential risk, and explain the signals influencing each prediction. It provides a centralized interface for running analyses, reviewing model predictions, and tracking previous results.
 
-**IMPORTANT: Preserve existing working gameplay systems.** Do not break progression, combat, saving, purchases, rebirths, enemy AI, or other existing mechanics while implementing these changes.
-
----
-
-# 1. NEW ABILITY SYSTEM AND COMPLETE ABILITY REDESIGN
-
-The current abilities need another major redesign.
-
-I want abilities to become progressively more impressive as the player unlocks stronger and more expensive ones.
-
-The main idea is:
-
-- Early abilities should be relatively simple and accessible.
-- Midgame abilities should have noticeably better animations, effects, damage, and area coverage.
-- Late-game abilities should feel like extremely powerful demon attacks with impressive visual effects, large-scale destruction, and substantial AOE.
-- Every ability should feel unique. Avoid making different abilities that are essentially the same attack with different colors.
-
-All abilities should be designed primarily for fighting groups of enemies. Even abilities that aren't enormous AOE attacks should be effective at killing multiple enemies.
-
-We want the later abilities to feel rewarding to unlock.
-
-## A. Abilities that must be removed/replaced
-
-Completely remove these abilities from the current ability lineup:
-
-1. Flame Serpent
-2. Crimson Chains
-3. Dark Rift – replace this with the new Black Hole ability described below.
-
-Make sure to clean up their old icons, UI references, effects, keybind references, and ability shop entries where appropriate.
-
-Do not leave remnants of the old abilities in the game.
-
-## B. New abilities to implement
-
-### 1. Dragon Breath – Large Cone AOE
-
-<badge>New ability</badge>
-
-<text>Type: Large frontal cone attack</text>
-
-This is one of the abilities I specifically want added.
-
-The player should summon an enormous stream of demonic fire and breathe it forward in a wide cone.
-
-Visual requirements:
-- A convincing fire-breath animation.
-- The player's arms and upper body should animate appropriately.
-- Large, detailed flames extending outward from the character.
-- Thick smoke mixed with the flames.
-- Sparks and burning embers.
-- Heat distortion and glowing particles.
-- Multiple layers of fire to create depth.
-- A powerful ending burst when the attack finishes.
-
-The fire should have a dark demonic red/orange appearance, with brighter yellow and orange areas inside the flames.
-
-Gameplay:
-- Wide cone-shaped hitbox.
-- Hits multiple enemies simultaneously.
-- Sustained damage during the breath animation.
-- Strong damage and excellent crowd-clearing capabilities.
-- Appropriate cooldown so it cannot be spammed.
-
-Sound:
-- Deep fire ignition.
-- Powerful continuous flame-roaring sound.
-- Low-frequency ending impact.
-
-This should feel like an actual dragon breathing fire, not a basic particle emitter.
-
-### 2. Black Hole – Replacement for Dark Rift
-
-<badge>Major ultimate ability</badge>
-
-Use IMAGE 1 and IMAGE 2 as the primary visual references.
-
-This should be one of the coolest abilities in the entire game.
-
-The player creates a massive void black hole in front of them that pulls nearby enemies inward.
-
-Visual design:
-- A dark circular center that looks almost completely black.
-- Multiple swirling purple energy rings around the center.
-- Bright violet and magenta energy traveling around the circumference.
-- Distorted space around the black hole.
-- Dark smoke and purple energy tendrils.
-- Small debris and particles being pulled inward.
-- A visible gravitational distortion effect.
-- Pulsating energy surrounding the center.
-
-The black hole should have depth and multiple layers. Do not make it look like a flat purple circle.
-
-Animation sequence:
-1. The player performs a summoning animation.
-2. A small void begins forming.
-3. The void rapidly expands into a large black hole.
-4. Purple energy rings begin rotating around it.
-5. Nearby enemies are pulled toward the center.
-6. The black hole pulses and damages enemies.
-7. The black hole collapses with a powerful implosion.
-8. A final burst of purple energy and dark particles dissipates.
-
-Gameplay:
-- Large circular AOE.
-- Pull nearby enemies toward the center.
-- Continuously damage enemies while they are inside.
-- Strong damage multiplier.
-- Excellent against large groups.
-- Appropriate cooldown.
-
-The pull should be implemented through controlled gameplay physics rather than relying on uncontrolled Roblox physics forces.
-
-The black hole should be large enough to feel like an ultimate ability, but should not completely obscure the entire screen.
-
-**Important:** The visual reference is the purple swirling black hole in IMAGE 1 and the fiery circular vortex in IMAGE 2. Combine the best visual aspects into an original demonic void ability.
-
-### 3. Abyssal Grasp – Giant Demonic Hand
-
-The existing Abyssal Grasp ability needs to be completely redesigned.
-
-Instead of the current implementation, I want an enormous black demonic hand to emerge from the ground and slam downward.
-
-Animation:
-1. The ground beneath the target area begins glowing red or dark purple.
-2. Dark energy spreads across the ground.
-3. A giant demonic hand emerges from underneath.
-4. The hand rises dramatically.
-5. It slams downward with tremendous force.
-6. A large shockwave spreads across the ground.
-7. Enemies caught in the impact take heavy damage.
-8. The hand disappears back into the ground.
-
-Visual effects:
-- Large black/red demonic hand.
-- Detailed claws and fingers.
-- Ground cracks.
-- Dust and debris.
-- Dark smoke.
-- Red energy pulses.
-- Impact shockwave.
-- Screen shake on impact.
-- Powerful bass-heavy sound effect.
-
-Gameplay:
-- Large ground-targeted AOE.
-- High burst damage.
-- Can hit multiple enemies.
-- Strong crowd-clearing potential.
-
-The hand should be an actual recognizable model with fingers and claws, not just a dark particle effect.
+The goal of MultiGuard is to demonstrate how machine learning, data processing, backend engineering, and cybersecurity concepts can be combined into a practical detection platform.
 
 ---
 
-# 2. ADDITIONAL UNIQUE DEMON ABILITY IDEAS
+## Features
 
-I also want you to expand the ability roster with additional unique attacks.
+### Implemented Detection Modules
 
-Use the following ideas as inspiration. Evaluate the existing ability progression and implement suitable abilities that fit naturally into the progression.
+**1. Fake Review Detection**
 
-### Infernal Meteor Shower
-The player summons multiple enormous burning meteors from above.
+Analyzes written product and service reviews to estimate whether they may be deceptive.
 
-- Meteors fall into several different locations.
-- Each meteor creates an explosion on impact.
-- Large AOE coverage.
-- Burning ground effects remain briefly.
-- Excellent for clearing large enemy groups.
+- TF-IDF text vectorization
+- Logistic Regression classification
+- Deceptive versus truthful classification
+- Risk scoring and model probabilities
+- Feature-based prediction explanations
+- Persistent analysis history using SQLite
 
-### Soulstorm
-The player summons a swirling vortex of trapped demonic souls.
+**2. Job Scam Detection**
 
-- A large vortex forms around the player.
-- Ghostly faces and dark energy swirl around the area.
-- Enemies are pulled inward.
-- Multiple pulses of damage.
-- Ends with a powerful outward explosion.
+Analyzes job postings to identify potentially fraudulent employment opportunities.
 
-### Hellhound Charge
-The player summons a massive demonic beast that charges forward.
+- TF-IDF text vectorization
+- Logistic Regression classification
+- Fraudulent versus legitimate classification
+- Risk scoring and model probabilities
+- Feature-based prediction explanations
+- Persistent analysis history using SQLite
 
-- A recognizable hellhound model.
-- Glowing red eyes.
-- Burning claws and smoke.
-- Charges through a group of enemies.
-- Leaves a trail of fire behind it.
+### Planned Detection Modules
 
-### Blood Moon Cleave
-The player performs an enormous claw slash that creates a crescent-shaped red energy wave.
+**3. Phishing Detection**
 
-- Large curved slash.
-- Multiple overlapping claw marks.
-- Red energy trails.
-- Wide frontal AOE.
-- Enemies are knocked backward.
+A dual-purpose phishing detection system designed to analyze:
 
-### Volcanic Rupture
-The ground splits open in front of the player.
+- Emails and text messages
+- Suspicious URLs and website addresses
 
-- Cracks spread across the ground.
-- Red/orange light shines through the cracks.
-- Multiple eruptions of fire and molten rock.
-- Enemies caught in the area take repeated damage.
+The planned implementation will use separate machine learning pipelines for message analysis and URL analysis.
 
-### Demon King Eruption
-A late-game ultimate.
+**4. Marketplace Fraud Detection**
 
-- A massive demonic energy explosion forms around the player.
-- Dark red energy pillars erupt from the ground.
-- Multiple shockwaves expand outward.
-- Enemies in a large radius take enormous damage.
-- A dramatic finishing explosion.
-
-You can suggest additional original abilities if they would make the progression more interesting.
-
-**Do not make every ability an enormous explosion.** I want variety in attack shapes, movement, timing, animations, and gameplay.
+A planned module for identifying potentially fraudulent marketplace listings and suspicious seller activity.
 
 ---
 
-# 3. ABILITY PROGRESSION AND GAMEPLAY
+## Technology Stack
 
-Keep the existing ability purchasing system based on trophies.
-
-The stronger and more expensive the ability, the more impressive its VFX, damage, and crowd-clearing potential should generally become.
-
-Organize abilities into a logical progression:
-
-| Progression | Ability design |
+| Category | Technologies |
 |---|---|
-| Early game | Simple attacks, smaller AOE |
-| Midgame | More elaborate attacks, better damage and coverage |
-| Late game | Large AOE, unique animations and complex VFX |
-| Endgame | Ultimate-level attacks with exceptional visual presentation |
-
-Keep the maximum number of equipped ability slots at three.
-
-Earlier progression should start with only one available ability slot, with additional slots becoming available as the player progresses.
-
-Use the existing keybind system where possible (E, R, F, etc.).
-
-Do not introduce additional ability slots beyond three.
-
-Make sure all abilities:
-- Have proper cooldowns.
-- Have working animations.
-- Have appropriate hitboxes.
-- Damage multiple enemies when appropriate.
-- Work correctly with the existing strength and damage systems.
-- Have properly synchronized VFX and damage timing.
-- Do not cause excessive performance problems.
+| Frontend | React, JavaScript, Vite |
+| Backend | Python, FastAPI |
+| Machine Learning | Scikit-learn |
+| Data Processing | Pandas, NumPy |
+| Text Processing | TF-IDF |
+| Classification | Logistic Regression |
+| Database | SQLite |
+| API Communication | Axios |
+| Visualization | Recharts |
+| Icons | Lucide React |
+| Model Persistence | Joblib |
 
 ---
 
-# 4. COMPLETE ICON REDESIGN – FOLK ICON PACK
+## System Architecture
 
-This is one of the highest priorities of the entire overhaul.
+MultiGuard uses a modular architecture that separates the frontend, backend API, machine learning services, and database.
 
-I have added a new skill called **Folk Icon Pack**.
+```text
+                 MULTIGUARD
+                      |
+          +-----------+-----------+
+          |                       |
+      FRONTEND                 BACKEND
+    React + Vite              FastAPI
+          |                       |
+          |                 API Endpoints
+          |                       |
+          +----------->-----------+
+                                  |
+                         Detection Services
+                                  |
+                +-----------------+-----------------+
+                |                 |                 |
+          Review Model       Job Model        Future Models
+                |                 |                 |
+          TF-IDF + LR       TF-IDF + LR       Specialized ML
+                |                 |                 |
+                +-----------------+-----------------+
+                                  |
+                           Prediction Results
+                                  |
+                     Risk Score + Explanation
+                                  |
+                            SQLite Database
+                                  |
+                         Analysis History
+```
 
-I will manually attach/provide the Folk Icon Pack skill to this Claude session. You MUST read and follow that skill before creating or modifying any icons.
+### Analysis Workflow
 
-Do not substitute your own generic icon design approach.
-
-Use the attached Folk Icon Pack as the primary design reference and follow its actual instructions, examples, style, and workflow.
-
-I want every icon throughout the entire game redesigned.
-
-Not just the ability icons.
-
-**EVERY SINGLE ICON.**
-
-This includes:
-
-### Player stats and progression
-- Power/strength icon.
-- Trophy icon.
-- Rebirth icon.
-- Kill icon.
-- Level icon.
-- XP-related icons.
-- All progression-related icons.
-
-### Ability icons
-- Every existing ability.
-- All newly added abilities.
-- Ability hotbar icons.
-- Ability shop icons.
-- Ability unlock icons.
-- Cooldown-related visual indicators.
-
-### Main UI buttons
-- Store.
-- Claws.
-- Powers.
-- Pets.
-- Auras.
-- Rebirth.
-- Quests.
-- Rewards.
-- Settings.
-- Teleport.
-- Updates.
-- Any other existing buttons.
-
-### Gamepass and purchase icons
-- 2x Power.
-- 2x Trophies.
-- All store icons.
-- All purchase-related icons.
-- Any multipliers or boosts.
-
-### Pet and egg icons
-- Egg icons.
-- Pet icons.
-- Rarity indicators.
-- Pet inventory icons.
-- Pet-related UI.
-
-### Other UI
-- XP bar decorations.
-- Bottom HUD icons.
-- Top-right buttons.
-- Shop categories.
-- Popup icons.
-- Notification icons.
-- Every other image-based UI element.
-
-## Icon design requirements
-
-The icons should have a consistent, professional, cartoonish Roblox simulator-game aesthetic.
-
-I want:
-- Clear recognizable silhouettes.
-- Strong shapes.
-- Carefully selected colors.
-- Clean outlines.
-- Consistent visual proportions.
-- Polished cartoon shading.
-- Readable designs at small sizes.
-- A cohesive visual language.
-
-Avoid:
-- Generic AI-looking illustrations.
-- Random gradients.
-- Excessive glowing.
-- Overly complicated details.
-- Inconsistent art styles.
-- Generic emoji substitutes.
-- Placeholder icons.
-
-The icons should look like they belong to a professionally developed Roblox simulator.
-
-**Do not just change the existing icons to different images. Redesign them using the attached skill's workflow.**
-
-Also, make sure all icons are correctly imported, scaled, positioned, and displayed in their respective UI elements.
-
-Do not leave any old icons behind.
+1. A user submits text through the React frontend.
+2. Axios sends the request to the FastAPI backend.
+3. The appropriate detection service loads and executes its trained model.
+4. The model generates a classification and prediction probabilities.
+5. The service calculates a risk score and extracts influential text features.
+6. The backend saves the analysis and its explanation in SQLite.
+7. The frontend displays the results.
+8. Previous analyses can be retrieved through the shared Analysis History page.
 
 ---
 
-# 5. BOTTOM HUD REDESIGN
+## Machine Learning Models
 
-The bottom HUD needs additional adjustments.
+### Fake Review Detection
 
-The current XP/level bar should be redesigned.
+**Algorithm:** TF-IDF + Logistic Regression
 
-Requirements:
-- Make the XP bar slightly larger.
-- Make it perfectly rectangular.
-- Remove the rounded/curved shape.
-- Use clean, straight edges.
-- Keep the text centered and readable.
-- Improve the level and XP number presentation.
-- Give the bar a more polished studded appearance.
+**Dataset:** Deceptive Opinion Spam Corpus
 
-The surrounding buttons and elements should also be adjusted.
+The review detection model was trained using a dataset containing 1,600 hotel reviews, split between truthful and deceptive examples.
 
-- Space the elements out more.
-- Improve alignment.
-- Make sure nothing overlaps.
-- Make all icons match the new Folk Icon Pack design.
-- Make the bottom HUD look cohesive.
+Preprocessing and training:
 
-## Rainbow slide effect
+- Removed duplicate records.
+- Converted review text into numerical TF-IDF features.
+- Used unigrams and bigrams.
+- Limited the vocabulary to 10,000 features.
+- Trained a Logistic Regression classifier.
+- Used an 80/20 stratified train-test split.
 
-Add a subtle rainbow sliding effect to the buttons along the bottom HUD.
+**Evaluation Results**
 
-The effect should:
-- Move smoothly across the button surfaces.
-- Have a polished rainbow color transition.
-- Be noticeable without being distracting.
-- Preserve text readability.
-- Not interfere with button interactions.
+| Metric | Result |
+|---|---:|
+| Accuracy | 86.56% |
+| Precision (Deceptive) | 87% |
+| Recall (Deceptive) | 86% |
+| F1 Score (Deceptive) | 87% |
 
-Do not turn the entire HUD into a flashing rainbow.
+Confusion Matrix:
 
-Also specifically redesign:
-- 2x Power icon.
-- 2x Trophies icon.
-- Main Power icon.
+```text
+[[138, 22],
+ [ 21, 139]]
+```
 
-These three are particularly important.
+These results represent performance on the held-out test split of the selected dataset.
 
----
+### Job Scam Detection
 
-# 6. COMPLETE MAP AND ENVIRONMENT REDESIGN
+**Algorithm:** TF-IDF + Logistic Regression
 
-I want to make substantial changes to the worlds and zones.
+**Dataset:** Real or Fake Fake Job Posting Prediction Dataset
 
-The current environment is too repetitive and needs more visual variety.
+The job detection model was trained using 17,880 job postings, including legitimate and fraudulent examples.
 
-**Every zone should have its own recognizable identity.**
+The model combines multiple text fields:
 
-I do not want the game to use the same environment for every three stages and then slightly change the colors.
+- Job title
+- Company profile
+- Job description
+- Requirements
+- Benefits
 
-Each major zone should feel like a genuinely different location.
+Preprocessing and training:
 
-Use IMAGE 4 and IMAGE 5 as the main environment references.
+- Combined relevant text fields into a single input.
+- Handled missing text fields.
+- Converted text into TF-IDF features.
+- Used unigrams and bigrams.
+- Limited the vocabulary to 30,000 features.
+- Used `min_df=2`.
+- Applied class weighting to address label imbalance.
+- Trained a Logistic Regression classifier.
+- Used an 80/20 stratified train-test split.
 
-## A. Environment references
+**Evaluation Results**
 
-IMAGE 4:
-Use this as a reference for:
-- More colorful environments.
-- Bright saturated colors.
-- Strong contrast between terrain and structures.
-- Interesting environmental layouts.
-- Colorful trees and foliage.
-- More visually interesting terrain.
+| Metric | Result |
+|---|---:|
+| Accuracy | 97.96% |
+| Average Precision (PR-AUC) | 92.34% |
+| Precision (Fraudulent) | 73.36% |
+| Recall (Fraudulent) | 90.75% |
+| F1 Score (Fraudulent) | 81.14% |
 
-IMAGE 5:
-Use this as a reference for:
-- Better overall brightness.
-- Clear visibility.
-- More attractive lighting.
-- Colorful environments.
-- A polished Roblox simulator appearance.
+Confusion Matrix:
 
-The goal is to combine these visual characteristics while retaining our game's demon theme.
+```text
+[[3346, 57],
+ [  16, 157]]
+```
 
-## B. Lighting improvements
+The model uses class weighting to improve its ability to identify fraudulent job postings despite the dataset's significant class imbalance.
 
-The current game looks too dark in many areas.
+### Prediction Explainability
 
-I want the environments to become significantly brighter and more visually appealing.
+Both implemented detection modules include feature-based explanations.
 
-Inspect the current Roblox lighting configuration before changing it.
+The application identifies text features that contributed positively or negatively to the model's prediction.
 
-Experiment with:
-- Brightness.
-- Ambient lighting.
-- Outdoor ambient.
-- Color correction.
-- Atmosphere.
-- Bloom.
-- Sunlight.
-- Skybox colors.
+For example:
 
-I am open to changing the sky to a slightly more purple/blue appearance if that helps.
+- Review Detection displays deceptive and truthful signals.
+- Job Scam Detection displays fraudulent and legitimate signals.
 
-However, do not make everything purple.
+These explanations are derived from the trained Logistic Regression model's feature contributions.
 
-I want a brighter, more colorful world with a slight fantasy atmosphere.
-
-The environments should have:
-- Clear visibility.
-- Bright terrain.
-- Vibrant colors.
-- Good contrast.
-- Soft atmospheric depth.
-- Attractive lighting.
-
-Avoid making the entire environment overly saturated or washed out.
-
-## C. Every zone needs a unique theme
-
-Redesign the zone progression so that each new major environment feels different.
-
-Some potential themes:
-
-1. Demon Outskirts – bright green terrain with red demonic accents.
-2. Cursed Forest – dark purple trees, glowing plants, and cursed structures.
-3. Lava Kingdom – orange/red terrain, lava rivers, and volcanic structures.
-4. Shadow Realm – dark blue and purple environments with glowing void structures.
-5. Blood Moon Fortress – crimson architecture and a red atmospheric sky.
-6. Frozen Abyss – icy blue terrain, frozen structures, and supernatural effects.
-7. Soul Valley – glowing green and cyan energy, floating particles, and eerie structures.
-8. Infernal Wasteland – scorched terrain and enormous demonic formations.
-9. Void Kingdom – black and purple structures with floating islands.
-10. Demon King's Domain – enormous structures, intense lighting, and an endgame atmosphere.
-
-These are examples, not strict limitations.
-
-Feel free to create more interesting themes that fit the game's progression.
-
-Each zone should have its own:
-- Terrain palette.
-- Buildings and structures.
-- Trees and foliage.
-- Decorations.
-- Lighting.
-- Environmental particles.
-- Props.
-- Enemy visual themes.
-
-Do not simply recolor the same map.
-
-Create genuinely different environments.
-
-## D. Preserve the zone layout and progression
-
-Keep the existing room and enemy progression system working.
-
-The map should still support the current room structure, including boss rooms every five rooms.
-
-Make sure environmental changes do not break:
-- Enemy spawning.
-- Enemy movement.
-- Room transitions.
-- Boss spawning.
-- Player progression.
-- Reward collection.
-- Collision.
-- Pathfinding.
-
-The environments should be designed around the existing gameplay systems.
+They provide insight into model behavior but do not establish that a particular word or phrase proves fraudulent activity.
 
 ---
 
-# 7. IMAGE REFERENCE BREAKDOWN
+## Risk Classification
 
-Use the uploaded images according to the following instructions.
+Each detection module returns a risk score from 0 to 100.
 
-| Image | Purpose |
+The current classification thresholds are:
+
+| Risk Score | Classification |
 |---|---|
-| IMAGE 1 | Purple swirling black hole visual reference |
-| IMAGE 2 | Fiery vortex/black hole VFX reference |
-| IMAGE 3 | Current gameplay screenshot and existing UI/environment context |
-| IMAGE 4 | Colorful environment and map design reference |
-| IMAGE 5 | Brightness, lighting, and environment presentation reference |
+| 0–39.99 | Likely Legitimate |
+| 40–69.99 | Suspicious |
+| 70–100 | High Risk |
 
-Do not confuse the references.
-
-Images 1 and 2 are specifically for the new Black Hole ability.
-
-Images 4 and 5 are specifically for the world and environment redesign.
-
-Image 3 provides context for the current game.
+The score represents the model's predicted positive-class probability expressed as a percentage. It is not a calibrated estimate of real-world fraud probability.
 
 ---
 
-# 8. PERFORMANCE AND IMPLEMENTATION QUALITY
+## Database & Analysis History
 
-All of these changes need to work properly in the actual Roblox game.
+MultiGuard uses SQLite to persist completed analyses.
 
-Do not create effects that look good in isolation but cause major FPS drops.
+Current database tables:
 
-Pay attention to:
-- Particle counts.
-- Particle lifetime.
-- Number of active emitters.
-- Mesh complexity.
-- Unnecessary physics.
-- Unanchored objects.
-- Repeated asset creation.
-- Memory leaks.
-- Effects that never clean themselves up.
+**`review_analyses`**
 
-Use appropriate cleanup for temporary effects.
+Stores:
+- Analysis ID
+- Original review text
+- Model prediction
+- Risk score
+- Risk classification
+- Deceptive probability
+- Truthful probability
+- Model explanation
+- Creation timestamp
 
-Use efficient Roblox systems and reuse assets when possible.
+**`job_analyses`**
 
-For major VFX, use a combination of:
-- Meshes.
-- Particle emitters.
-- Beams.
-- Trails.
-- Attachments.
-- Tween animations.
-- Lighting effects.
-- Sound effects.
+Stores:
+- Analysis ID
+- Original job posting
+- Model prediction
+- Risk score
+- Risk classification
+- Fraudulent probability
+- Legitimate probability
+- Model explanation
+- Creation timestamp
 
-Do not rely entirely on ParticleEmitters to create complex abilities.
+### Shared Analysis History
 
-Use proper models and geometry wherever appropriate.
+The frontend combines reports from both detection modules into one history interface.
 
-Make sure multiplayer behavior is handled correctly, with server-authoritative damage and appropriate client-side visual effects.
+Current functionality:
 
----
-
-# 9. REQUIRED WORKFLOW
-
-Before making changes:
-
-1. Inspect the existing project structure.
-2. Identify the current ability system and how abilities are registered.
-3. Identify the existing icon and image asset structure.
-4. Identify the current HUD and UI hierarchy.
-5. Inspect the map and zone-generation/layout system.
-6. Inspect the current lighting configuration.
-7. Read the attached Folk Icon Pack skill completely.
-8. Review the relevant existing skills and workflows before implementing the changes.
-
-Do not start blindly replacing assets.
-
-Use the actual project architecture and preserve working systems.
-
-## Implementation order
-
-I recommend the following order:
-
-**Phase 1 – Ability redesign**
-- Remove Flame Serpent and Crimson Chains.
-- Replace Dark Rift with Black Hole.
-- Redesign Abyssal Grasp.
-- Implement Dragon Breath.
-- Add the additional unique abilities.
-- Update ability purchasing, keybinds, cooldowns, damage, and VFX.
-
-**Phase 2 – Icon redesign**
-- Read and apply Folk Icon Pack.
-- Redesign every icon.
-- Update all UI references.
-- Remove old generic icons.
-- Verify sizing and consistency.
-
-**Phase 3 – HUD redesign**
-- Redesign the XP bar.
-- Update the bottom HUD.
-- Improve spacing.
-- Add the rainbow sliding button effect.
-- Update the power and trophy indicators.
-- Update top-right and other UI elements.
-
-**Phase 4 – World redesign**
-- Improve lighting.
-- Improve the sky and atmosphere.
-- Redesign every zone.
-- Introduce unique environmental themes.
-- Improve terrain, structures, foliage, and decorations.
-
-**Phase 5 – Testing and polish**
-- Test all abilities.
-- Test damage and hitboxes.
-- Test all UI buttons.
-- Test purchases and unlocks.
-- Test progression.
-- Check for missing icons.
-- Check for performance problems.
-- Verify that all environments load and function correctly.
+- Retrieve saved review and job analyses
+- Display reports in chronological order
+- Search previous analyses
+- Filter by risk classification
+- Expand reports to view original submitted text
+- Review model probabilities
+- View feature-based explanations
+- Refresh saved reports
 
 ---
 
-# 10. FINAL QUALITY EXPECTATIONS
+## API Endpoints
 
-I want the finished game to feel like a polished, professionally developed Roblox simulator.
+MultiGuard uses FastAPI to expose its detection and history functionality.
 
-The most important priorities are:
+### Review Detection
 
-1. **Abilities:** Late-game abilities must feel powerful, unique, and visually impressive, with substantial AOE potential.
-2. **Icons:** Every icon must be redesigned using the attached Folk Icon Pack skill. No generic or AI-looking icons should remain.
-3. **HUD:** The bottom HUD should be cleaner, larger, rectangular, better spaced, and more polished.
-4. **Environments:** Every major zone should have its own identity, with brighter lighting and more colorful environments.
-5. **Performance:** All effects, models, and environments must work smoothly.
+| Method | Endpoint | Description |
+|---|---|---|
+| POST | `/api/reviews/analyze` | Analyze a review |
+| GET | `/api/reviews/history` | Retrieve review history |
 
-Do not stop after producing a plan or a few example assets.
+Example request:
 
-I want you to implement the changes throughout the actual project.
+```json
+{
+  "review_text": "The hotel room was clean and the staff were friendly."
+}
+```
 
-Do not leave half of the icons untouched, redesign only the first few zones, or implement placeholder abilities.
+### Job Scam Detection
 
-If something cannot be completed because an asset, skill, tool, or dependency is unavailable, explain exactly what is missing rather than silently substituting a lower-quality solution.
+| Method | Endpoint | Description |
+|---|---|---|
+| POST | `/api/jobs/analyze` | Analyze a job posting |
+| GET | `/api/jobs/history` | Retrieve job analysis history |
 
-**The ultimate goal is to make Demon Evolution feel significantly more polished, colorful, powerful, and visually exciting without sacrificing performance or breaking existing gameplay.**
+Example request:
+
+```json
+{
+  "job_text": "Paste the complete job posting here..."
+}
+```
+
+### General Endpoints
+
+| Method | Endpoint | Description |
+|---|---|---|
+| GET | `/` | API welcome message |
+| GET | `/health` | Backend health check |
+| GET | `/api/test` | Frontend/backend connection test |
+
+Interactive API documentation is available through FastAPI Swagger UI at:
+
+`http://127.0.0.1:8000/docs`
+
+---
+
+## Project Structure
+
+```text
+MultiGuard/
+│
+├── backend/
+│   ├── app/
+│   │   ├── main.py
+│   │   ├── database.py
+│   │   │
+│   │   ├── routes/
+│   │   │   ├── reviews.py
+│   │   │   └── jobs.py
+│   │   │
+│   │   ├── services/
+│   │   │   ├── review_detector.py
+│   │   │   └── job_detector.py
+│   │   │
+│   │   └── schemas/
+│   │       ├── review.py
+│   │       └── job.py
+│   │
+│   ├── models/
+│   │   ├── review_detector.joblib
+│   │   └── job_detector.joblib
+│   │
+│   ├── requirements.txt
+│   └── multiguard.db
+│
+├── frontend/
+│   ├── src/
+│   │   ├── components/
+│   │   │   └── Sidebar.jsx
+│   │   │
+│   │   ├── pages/
+│   │   │   ├── Overview.jsx
+│   │   │   ├── ReviewDetection.jsx
+│   │   │   ├── JobDetection.jsx
+│   │   │   └── History.jsx
+│   │   │
+│   │   ├── services/
+│   │   │   └── api.js
+│   │   │
+│   │   ├── App.jsx
+│   │   ├── App.css
+│   │   └── main.jsx
+│   │
+│   └── package.json
+│
+├── ml/
+│   └── training/
+│       ├── explore_dataset.py
+│       ├── train_review_model.py
+│       ├── explore_job_dataset.py
+│       └── train_job_model.py
+│
+├── data/
+│   └── raw/
+│       ├── deceptive-opinion.csv
+│       └── fake_job_postings.csv
+│
+└── README.md
+```
+
+The structure will expand as additional detection modules are implemented.
+
+---
+
+## Installation & Setup
+
+### Prerequisites
+
+- Python 3.10+
+- Node.js and npm
+- Git
+
+### 1. Clone the repository
+
+```bash
+git clone <YOUR_GITHUB_REPOSITORY_URL>
+cd MultiGuard
+```
+
+### 2. Set up the Python backend
+
+Create a virtual environment:
+
+```bash
+python -m venv backend/venv
+```
+
+Activate it in Windows PowerShell:
+
+```powershell
+.\backend\venv\Scripts\Activate.ps1
+```
+
+Install dependencies:
+
+```bash
+pip install -r backend/requirements.txt
+```
+
+### 3. Start the backend
+
+From the project root:
+
+```powershell
+cd backend
+python -m uvicorn app.main:app --reload
+```
+
+The backend will run at:
+
+`http://127.0.0.1:8000`
+
+### 4. Set up the frontend
+
+Open another terminal:
+
+```bash
+cd frontend
+npm install
+```
+
+### 5. Start the frontend
+
+```bash
+npm run dev
+```
+
+The frontend will run at the local Vite development address, typically:
+
+`http://localhost:5173`
+
+---
+
+## Dataset Sources & Attribution
+
+MultiGuard uses publicly available datasets for machine learning research and model development.
+
+Dataset ownership and licensing remain with their respective creators and publishers.
+
+### 1. Deceptive Opinion Spam Corpus
+
+Used for training the Fake Review Detection model.
+
+The dataset contains truthful and deceptive hotel reviews and is associated with research by Ott et al.
+
+### 2. Real or Fake Fake Job Posting Prediction Dataset
+
+Used for training the Job Scam Detection model.
+
+Source: Kaggle.
+
+Dataset: [Real or Fake Fake Job Posting Prediction](https://www.kaggle.com/datasets/shivamb/real-or-fake-fake-jobposting-prediction)
+
+### 3. LegitPhish Dataset — Phishing URL Detection
+
+**Planned dataset for the URL phishing detection model.**
+
+Source: [Mendeley Data — LegitPhish, Version 2](https://data.mendeley.com/datasets/hx4m73v2sf/2)
+
+**Dataset citation:**
+
+Potpelwar, R. S., Kulkarni, U. V., & Waghmare, J. M. (2025). *LegitPhish: A large-scale annotated dataset for URL-based phishing detection*. Mendeley Data, Version 2.
+
+DOI: [10.17632/hx4m73v2sf.2](https://doi.org/10.17632/hx4m73v2sf.2)
+
+**License: Creative Commons Attribution 4.0 International (CC BY 4.0)**
+
+The dataset contains 101,219 labeled URLs:
+
+- 63,678 phishing URLs
+- 37,540 legitimate URLs
+
+It also includes 17 engineered URL features, such as URL length, token count, entropy, subdomain count, and top-level domain characteristics.
+
+The dataset is intended for research and development of machine learning-based phishing detection systems.
+
+**Attribution and license notice:**
+
+The LegitPhish dataset by Rachana S. Potpelwar, U. V. Kulkarni, and J. M. Waghmare is licensed under the Creative Commons Attribution 4.0 International License (CC BY 4.0).
+
+Original dataset: https://data.mendeley.com/datasets/hx4m73v2sf/2
+
+License: https://creativecommons.org/licenses/by/4.0/
+
+The dataset may be used, adapted, and redistributed in accordance with the license terms, provided appropriate credit is given, a link to the license is supplied, and changes are indicated.
+
+The dataset has been selected for the planned phishing URL detection module. Its actual use in model training will be documented once implementation is complete.
+
+---
+
+## Current Development Status
+
+| Component | Status |
+|---|---|
+| React frontend | Implemented |
+| FastAPI backend | Implemented |
+| SQLite database | Implemented |
+| Fake Review Detection | Complete |
+| Job Scam Detection | Complete |
+| Shared Analysis History | Complete |
+| Phishing Email Detection | Planned |
+| Phishing URL Detection | Planned |
+| Marketplace Fraud Detection | Planned |
+| Deployment | Future work |
+
+---
+
+## Future Improvements
+
+Potential future development includes:
+
+- Email and message phishing classification
+- URL-based phishing detection using lexical and structural features
+- Marketplace listing fraud detection
+- More advanced machine learning models
+- Additional model evaluation and cross-dataset validation
+- Improved probability calibration and threshold selection
+- Batch CSV analysis
+- PostgreSQL database integration
+- Model performance dashboards
+- Public deployment
+
+---
+
+## Disclaimer
+
+MultiGuard is an educational and research-oriented machine learning project.
+
+Its predictions are estimates based on patterns learned from training datasets. A high-risk classification does not conclusively prove that content is fraudulent, and a low-risk classification does not guarantee that content is safe.
+
+Users should independently verify suspicious reviews, job opportunities, emails, messages, and URLs.
+
+---
+
+## Author
+
+Developed as an independent software engineering and machine learning project.
+
+**MultiGuard — Detecting Deception Across Multiple Domains.**
