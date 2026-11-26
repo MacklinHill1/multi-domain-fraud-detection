@@ -7,6 +7,7 @@ import ReviewDetection from "./pages/ReviewDetection";
 import HistoryPage from "./pages/History";
 import JobDetection from "./pages/JobDetection";
 import PhishingDetection from "./pages/PhishingDetection";
+import MarketplaceDetection from "./pages/MarketplaceDetection";
 
 import "./App.css";
 
@@ -18,7 +19,8 @@ function App() {
         reviews: "Review Detection",
         history: "Analysis History",
         jobs: "Job Scam Detection",
-        phishing: "Phishing Detection"
+        phishing: "Phishing Detection",
+        marketplace: "Marketplace Fraud Detection"
     };
 
     const renderPage = () => {
@@ -31,6 +33,8 @@ function App() {
                 return <JobDetection />;
             case "phishing":
                 return <PhishingDetection />;
+            case "marketplace":
+                return <MarketplaceDetection />;
             default:
                 return <Overview onNavigate={setActivePage} />;
         }

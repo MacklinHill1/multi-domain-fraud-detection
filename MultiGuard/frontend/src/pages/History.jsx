@@ -34,10 +34,14 @@ function HistoryPage() {
                     offset: 0
                 };
 
-                // Retrieve review and job reports simultaneously
-                const [reviewResponse, jobResponse] = await Promise.all([
+                const [
+                    reviewResponse,
+                    jobResponse,
+                    marketplaceResponse
+                ] = await Promise.all([
                     api.get("/api/reviews/history", { params }),
-                    api.get("/api/jobs/history", { params })
+                    api.get("/api/jobs/history", { params }),
+                    api.get("/api/marketplace/history", { params })
                 ]);
 
                 const reviewReports = (
@@ -54,10 +58,17 @@ function HistoryPage() {
                     type: "job"
                 }));
 
-                // Combine both report types and sort newest first
+                const marketplaceReports = (
+                    marketplaceResponse.data.reports || []
+                ).map((report) => ({
+                    ...report,
+                    type: "marketplace"
+                }));
+
                 const combinedReports = [
                     ...reviewReports,
-                    ...jobReports
+                    ...jobReports,
+                    ...marketplaceReports
                 ].sort(
                     (a, b) =>
                         new Date(b.created_at) - new Date(a.created_at)
@@ -96,13 +107,28 @@ function HistoryPage() {
     }
 
     function getRiskLabel(level) {
+        const normalized = String(level || "")
+            .toLowerCase()
+            .replaceAll(" ", "_");
+
         const labels = {
             high_risk: "High Risk",
             suspicious: "Suspicious",
             likely_legitimate: "Likely Legitimate"
         };
 
-        return labels[level] || level;
+        return labels[normalized] || level;
+    }
+
+    function getRiskClass(level) {
+        const normalized = String(level || "")
+            .toLowerCase()
+            .replaceAll(" ", "_");
+
+        if (normalized === "high_risk") return "high_risk";
+        if (normalized === "suspicious") return "suspicious";
+
+        return "likely_legitimate";
     }
 
     function getReportKey(report) {
@@ -118,9 +144,15 @@ function HistoryPage() {
     }
 
     function getReportText(report) {
-        return report.type === "job"
-            ? report.job_text
-            : report.review_text;
+        if (report.type === "job") {
+            return report.job_text;
+        }
+
+        if (report.type === "marketplace") {
+            return report.title;
+        }
+
+        return report.review_text;
     }
 
     function getProbabilities(report) {
@@ -130,6 +162,15 @@ function HistoryPage() {
                 positive: report.fraudulent_probability,
                 negativeLabel: "Legitimate",
                 negative: report.legitimate_probability
+            };
+        }
+
+        if (report.type === "marketplace") {
+            return {
+                positiveLabel: "Potentially Fraudulent",
+                positive: report.probabilities?.fraudulent,
+                negativeLabel: "Legitimate",
+                negative: report.probabilities?.legitimate
             };
         }
 
@@ -151,12 +192,83 @@ function HistoryPage() {
             };
         }
 
+        if (report.type === "marketplace") {
+            return {
+                positiveLabel: "Fraud Warning Signs",
+                positive: report.explanation?.fraudulent_signals || [],
+                negativeLabel: "Legitimate Signals",
+                negative: report.explanation?.legitimate_signals || []
+            };
+        }
+
         return {
             positiveLabel: "Deceptive Signals",
             positive: report.explanation?.deceptive_signals || [],
             negativeLabel: "Truthful Signals",
             negative: report.explanation?.truthful_signals || []
         };
+    }
+
+    function getReportTypeLabel(type) {
+        const labels = {
+            review: "Review Detection",
+            job: "Job Scam Detection",
+            marketplace: "Marketplace Fraud Detection"
+        };
+
+        return labels[type] || "Detection Report";
+    }
+
+    function getReportHeading(type) {
+        const labels = {
+            review: "REVIEW REPORT",
+            job: "JOB REPORT",
+            marketplace: "MARKETPLACE REPORT"
+        };
+
+        return labels[type] || "ANALYSIS REPORT";
+    }
+
+    function renderMarketplaceDetails(report) {
+        return (
+            <div className="history-detail-section">
+                <h3>Original Marketplace Listing</h3>
+
+                <div className="history-listing-details">
+                    <p>
+                        <strong>Title:</strong> {report.title}
+                    </p>
+
+                    <p>
+                        <strong>Description:</strong> {report.description}
+                    </p>
+
+                    <p>
+                        <strong>Asking Price:</strong>{" "}
+                        ${Number(report.price).toFixed(2)}
+                    </p>
+
+                    <p>
+                        <strong>Category:</strong> {report.category}
+                    </p>
+
+                    <p>
+                        <strong>Seller Information:</strong>{" "}
+                        {report.seller_information || "Not provided"}
+                    </p>
+
+                    <p>
+                        <strong>Payment Method:</strong>{" "}
+                        {report.payment_method || "Not provided"}
+                    </p>
+
+                    <p>
+                        <strong>Urgency Signal:</strong>{" "}
+                        {report.urgency_signal || "None reported"}
+                    </p>
+                </div>
+            </div>
+        );
     }
 
     return (
@@ -263,20 +375,16 @@ function HistoryPage() {
                                     <div className="history-report-info">
                                         <div className="history-report-topline">
                                             <span className="history-report-id">
-                                                {report.type === "job"
-                                                    ? "JOB REPORT"
-                                                    : "REVIEW REPORT"}{" "}
+                                                {getReportHeading(report.type)}{" "}
                                                 #{report.id}
                                             </span>
 
                                             <span className="history-report-id">
-                                                {report.type === "job"
-                                                    ? "Job Scam Detection"
-                                                    : "Review Detection"}
+                                                {getReportTypeLabel(report.type)}
                                             </span>
 
                                             <span
-                                                className={`risk-label ${report.risk_level}`}
+                                                className={`risk-label ${getRiskClass(report.risk_level)}`}
                                             >
                                                 {getRiskLabel(report.risk_level)}
                                             </span>
@@ -308,14 +416,18 @@ function HistoryPage() {
 
                                 {isSelected && (
                                     <div className="history-report-details">
-                                        <div className="history-detail-section">
-                                            <h3>
-                                                {report.type === "job"
-                                                    ? "Original Job Posting"
-                                                    : "Original Review"}
-                                            </h3>
-                                            <p>{reportText}</p>
-                                        </div>
+                                        {report.type === "marketplace" ? (
+                                            renderMarketplaceDetails(report)
+                                        ) : (
+                                            <div className="history-detail-section">
+                                                <h3>
+                                                    {report.type === "job"
+                                                        ? "Original Job Posting"
+                                                        : "Original Review"}
+                                                </h3>
+                                                <p>{reportText}</p>
+                                            </div>
+                                        )}
 
                                         <div className="history-detail-probabilities">
                                             <div>
@@ -342,7 +454,11 @@ function HistoryPage() {
                                         </div>
 
                                         <div className="history-detail-section">
-                                            <h3>Model Explanation</h3>
+                                            <h3>
+                                                {report.type === "marketplace"
+                                                    ? "Observed Listing Signals"
+                                                    : "Model Explanation"}
+                                            </h3>
 
                                             <div className="history-signal-columns">
                                                 <div>
@@ -401,6 +517,15 @@ function HistoryPage() {
                                                     )}
                                                 </div>
                                             </div>
+
+                                            {report.type === "marketplace" && (
+                                                <p className="page-subtitle">
+                                                    These are observable listing
+                                                    indicators, not proof of fraud
+                                                    or direct model feature
+                                                    attribution.
+                                                </p>
+                                            )}
                                         </div>
                                     </div>
                                 )}

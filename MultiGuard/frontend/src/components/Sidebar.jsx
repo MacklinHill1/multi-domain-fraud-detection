@@ -21,7 +21,7 @@ const navigation = [
         items: [
             { id: "reviews", label: "Review Detection", icon: ScanSearch },
             { id: "phishing", label: "Phishing Detection", icon: ShieldAlert },
-            { id: "marketplace", label: "Marketplace Fraud", icon: Store, comingSoon: true },
+            { id: "marketplace", label: "Marketplace Fraud", icon: Store },
             { id: "jobs", label: "Job Scam Detection", icon: BriefcaseBusiness }
         ]
     }
@@ -55,20 +55,11 @@ function Sidebar({ activePage, onNavigate }) {
                                     key={item.id}
                                     className={`nav-item ${
                                         activePage === item.id ? "active" : ""
-                                    } ${item.comingSoon ? "disabled" : ""}`}
-                                    onClick={() => {
-                                        if (!item.comingSoon) {
-                                            onNavigate(item.id);
-                                        }
-                                    }}
-                                    disabled={item.comingSoon}
+                                    }`}
+                                    onClick={() => onNavigate(item.id)}
                                 >
                                     <Icon size={18} strokeWidth={1.8} />
                                     <span>{item.label}</span>
-
-                                    {item.comingSoon && (
-                                        <span className="coming-soon">SOON</span>
-                                    )}
                                 </button>
                             );
                         })}
@@ -85,7 +76,7 @@ function Sidebar({ activePage, onNavigate }) {
                     </div>
                 </div>
                 <p className="sidebar-version">
-                    MULTIGUARD · 3/4 MODULES ACTIVE
+                    MULTIGUARD · 4/4 MODULES ACTIVE
                 </p>
             </div>
         </aside>
