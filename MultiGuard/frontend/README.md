@@ -411,7 +411,7 @@ The structure will expand as additional detection modules are implemented.
 ### 1. Clone the repository
 
 ```bash
-git clone <YOUR_GITHUB_REPOSITORY_URL>
+git clone https://github.com/MacklinHill1/multi-domain-fraud-detection.git
 cd MultiGuard
 ```
 
