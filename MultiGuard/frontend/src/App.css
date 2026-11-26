@@ -1297,3 +1297,40 @@ button {
         gap: 20px;
     }
 }
+
+.phishing-mode-toggle {
+    display: flex;
+    gap: 10px;
+    margin: 24px 0;
+}
+
+.mode-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 11px 16px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    background: transparent;
+    color: var(--text-secondary);
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.mode-button:hover {
+    border-color: var(--accent-color);
+}
+
+.mode-button.active {
+    background: var(--accent-color);
+    color: white;
+    border-color: var(--accent-color);
+}
+
+.mode-button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}

@@ -6,6 +6,7 @@ import Overview from "./pages/Overview";
 import ReviewDetection from "./pages/ReviewDetection";
 import HistoryPage from "./pages/History";
 import JobDetection from "./pages/JobDetection";
+import PhishingDetection from "./pages/PhishingDetection";
 
 import "./App.css";
 
@@ -16,7 +17,8 @@ function App() {
         overview: "Overview",
         reviews: "Review Detection",
         history: "Analysis History",
-        jobs: "Job Scam Detection"
+        jobs: "Job Scam Detection",
+        phishing: "Phishing Detection"
     };
 
     const renderPage = () => {
@@ -27,6 +29,8 @@ function App() {
                 return <HistoryPage />;
             case "jobs":
                 return <JobDetection />;
+            case "phishing":
+                return <PhishingDetection />;
             default:
                 return <Overview onNavigate={setActivePage} />;
         }

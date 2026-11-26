@@ -20,7 +20,7 @@ const navigation = [
         section: "DETECTION MODULES",
         items: [
             { id: "reviews", label: "Review Detection", icon: ScanSearch },
-            { id: "phishing", label: "Phishing Detection", icon: ShieldAlert, comingSoon: true },
+            { id: "phishing", label: "Phishing Detection", icon: ShieldAlert },
             { id: "marketplace", label: "Marketplace Fraud", icon: Store, comingSoon: true },
             { id: "jobs", label: "Job Scam Detection", icon: BriefcaseBusiness }
         ]
@@ -84,7 +84,9 @@ function Sidebar({ activePage, onNavigate }) {
                         <span>Detection services active</span>
                     </div>
                 </div>
-                <p className="sidebar-version">MULTIGUARD · DEVELOPMENT BUILD</p>
+                <p className="sidebar-version">
+                    MULTIGUARD · 3/4 MODULES ACTIVE
+                </p>
             </div>
         </aside>
     );
