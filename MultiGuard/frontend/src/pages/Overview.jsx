@@ -13,34 +13,33 @@ const modules = [
         id: "reviews",
         title: "Review Detection",
         description: "Identify potentially deceptive product and service reviews.",
-        icon: ScanSearch,
-        status: "ACTIVE",
-        active: true
+        icon: ScanSearch
     },
     {
         id: "phishing",
         title: "Phishing Detection",
         description: "Analyze suspicious messages, links, and potential scams.",
-        icon: ShieldAlert,
-        status: "COMING SOON"
+        icon: ShieldAlert
     },
     {
         id: "marketplace",
         title: "Marketplace Fraud",
         description: "Identify suspicious listings and potential marketplace scams.",
-        icon: Store,
-        status: "COMING SOON"
+        icon: Store
     },
     {
         id: "jobs",
         title: "Job Scam Detection",
         description: "Evaluate job offers and identify potentially fraudulent opportunities.",
-        icon: BriefcaseBusiness,
-        status: "COMING SOON"
+        icon: BriefcaseBusiness
     }
 ];
 
-function Overview({ onNavigate }) {
+function Overview({ onNavigate, stats }) {
+    const totalAnalyses = stats?.totalAnalyses ?? 0;
+    const potentialThreats = stats?.potentialThreats ?? 0;
+    const recentActivity = stats?.recentActivity ?? "No activity";
+    
     return (
         <div className="page-content">
             <div className="page-heading">
@@ -74,6 +73,7 @@ function Overview({ onNavigate }) {
                         <ArrowUpRight size={17} />
                     </button>
                 </div>
+
                 <div className="welcome-decoration">
                     <div className="decoration-circle">
                         <ShieldAlert size={66} strokeWidth={1.2} />
@@ -84,7 +84,7 @@ function Overview({ onNavigate }) {
             <div className="section-heading">
                 <div>
                     <h2>Platform Activity</h2>
-                    <p>Analysis statistics will appear here as history tracking is added.</p>
+                    <p>Overview of your saved detection analyses.</p>
                 </div>
             </div>
 
@@ -94,8 +94,8 @@ function Overview({ onNavigate }) {
                         <span>Total Analyses</span>
                         <Activity size={19} />
                     </div>
-                    <h3>—</h3>
-                    <p>Awaiting history integration</p>
+                    <h3>{totalAnalyses}</h3>
+                    <p>Total saved reports</p>
                 </div>
 
                 <div className="stat-card">
@@ -103,8 +103,8 @@ function Overview({ onNavigate }) {
                         <span>Potential Threats</span>
                         <ShieldAlert size={19} />
                     </div>
-                    <h3>—</h3>
-                    <p>Awaiting history integration</p>
+                    <h3>{potentialThreats}</h3>
+                    <p>Suspicious or high-risk reports</p>
                 </div>
 
                 <div className="stat-card">
@@ -112,8 +112,8 @@ function Overview({ onNavigate }) {
                         <span>Detection Modules</span>
                         <ScanSearch size={19} />
                     </div>
-                    <h3>2 <span className="stat-total">/ 4</span></h3>
-                    <p>Two modules currently active</p>
+                    <h3>4 <span className="stat-total">/ 4</span></h3>
+                    <p>All modules active</p>
                 </div>
 
                 <div className="stat-card">
@@ -121,15 +121,17 @@ function Overview({ onNavigate }) {
                         <span>Recent Activity</span>
                         <Clock3 size={19} />
                     </div>
-                    <h3>—</h3>
-                    <p>Awaiting history integration</p>
+                    <h3 className="recent-activity-value">{recentActivity}</h3>
+                    <p>Most recent analysis</p>
                 </div>
             </div>
 
             <div className="section-heading modules-heading">
                 <div>
                     <h2>Detection Modules</h2>
-                    <p>Specialized machine learning tools for different types of deception.</p>
+                    <p>
+                        Specialized machine learning tools for different types of deception.
+                    </p>
                 </div>
             </div>
 
@@ -138,13 +140,26 @@ function Overview({ onNavigate }) {
                     const Icon = module.icon;
 
                     return (
-                        <div className="module-card" key={module.id}>
+                        <div
+                            className="module-card"
+                            key={module.id}
+                            onClick={() => onNavigate(module.id)}
+                            role="button"
+                            tabIndex={0}
+                            onKeyDown={(event) => {
+                                if (event.key === "Enter" || event.key === " ") {
+                                    event.preventDefault();
+                                    onNavigate(module.id);
+                                }
+                            }}
+                        >
                             <div className="module-card-top">
                                 <div className="module-icon">
                                     <Icon size={21} />
                                 </div>
-                                <span className={`module-status ${module.active ? "active" : ""}`}>
-                                    {module.status}
+
+                                <span className="module-status active">
+                                    ACTIVE
                                 </span>
                             </div>
 
@@ -153,11 +168,13 @@ function Overview({ onNavigate }) {
 
                             <button
                                 className="module-link"
-                                onClick={() => module.active && onNavigate(module.id)}
-                                disabled={!module.active}
+                                onClick={(event) => {
+                                    event.stopPropagation();
+                                    onNavigate(module.id);
+                                }}
                             >
-                                {module.active ? "Open module" : "Under development"}
-                                {module.active && <ArrowUpRight size={16} />}
+                                Open module
+                                <ArrowUpRight size={16} />
                             </button>
                         </div>
                     );

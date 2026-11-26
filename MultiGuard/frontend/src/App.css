@@ -1030,8 +1030,11 @@ button {
 }
 
 .history-results-header h2 {
-    font-size: 17px;
-    margin-bottom: 5px;
+    margin: 0 0 7px;
+    color: #a5b4fc;
+    font-size: 21px;
+    font-weight: 700;
+    letter-spacing: -0.4px;
 }
 
 .history-results-header p {
@@ -1409,4 +1412,55 @@ button {
 .history-listing-details p {
     margin: 0;
     line-height: 1.6;
+}
+/* ========================================
+   DASHBOARD UI POLISH
+======================================== */
+
+/* Clickable detection module cards */
+.module-card {
+    cursor: pointer;
+}
+
+.module-card:focus-visible {
+    outline: 2px solid #8b9cf4;
+    outline-offset: 3px;
+}
+
+.module-card:hover .module-link {
+    color: #c7d2fe;
+}
+
+/* Consistent active badges */
+.module-status.active {
+    color: #86efac;
+    border-color: #245442;
+    background: #142c2a;
+    letter-spacing: 0.7px;
+}
+
+/* Recent activity statistic */
+.stat-card .recent-activity-value {
+    font-size: 20px;
+    letter-spacing: -0.4px;
+}
+
+/* Saved Reports heading */
+.history-results-header h2 {
+    margin: 0 0 7px;
+    color: #a5b4fc;
+    font-size: 21px;
+    font-weight: 700;
+    letter-spacing: -0.4px;
+}
+
+/* Refresh button hover */
+.history-refresh {
+    transition: 0.2s ease;
+}
+
+.history-refresh:hover {
+    border-color: #6878d9;
+    background: #253354;
+    color: #c7d2fe;
 }
